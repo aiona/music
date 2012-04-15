@@ -10,7 +10,7 @@
       <dt>Title</dt>
       <dd><%=item.name%></dd>
       <dt>Album</dt>
-      <dd><a href="/parties/<%=item.party%>"><%=item.party%></a></dd>
+      <dd><a href="/albums/<%=item.album%>"><%=item.album%></a></dd>
       <% if (item.image) { %>
       <dt>Image URL</dt>
       <dd><img src="<%=item.image%>" alt="<%=item.name%>"></dd>
@@ -18,7 +18,7 @@
     </dl>
     <div class="control">
       <h2>Update album</h2>
-      <form method="post" action="/candidates/<%=item._id%>">
+      <form method="post" action="/albums/<%=item._id%>">
         <input type="hidden" name="_method" value="put">
         <!-- The line above tells the server to treat this as a PUT request. -->
         <label>Name: 
@@ -28,7 +28,7 @@
           <select name="item[album]" required>
             <% related_items.forEach(function(related_item) { %>
             <option value="<%=related_item._id%>"
-              <% if (related_item._id === item.party) { %>selected<% } %>>
+              <% if (related_item._id === item.album) { %>selected<% } %>>
               <%=related_item.name%>
             </option>
             <% }); %>
