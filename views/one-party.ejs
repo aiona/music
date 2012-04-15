@@ -34,7 +34,7 @@
     <div class="control">
       <h2>Add a new album</h2>
       <form id="create-album" method="post" action="/albums/">
-        <input type="hidden" name="item[party]" value="<%=item._id%>">
+        <input type="hidden" name="item[album]" value="<%=item._id%>">
         <!-- The line above links the candidate to be created to this party. -->
         <label>Album Title: 
           <input name="item[name]" type="text" required
