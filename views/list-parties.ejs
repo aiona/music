@@ -19,7 +19,7 @@
       <h2>Add or update a new band</h2>
       <script>
       function onFormSubmit(form) {
-        form.action = form.action + form.elements['band[id]'].value;
+        form.action = form.action + form.elements['item[id]'].value;
         console.log(form.action);
         return true;
       } 
