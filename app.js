@@ -58,7 +58,7 @@ app.put('/albums/{ASIN}/',      // TODO: change to suit your URI design.
 // Example of handling GET of a "collection" resource. /////////////////////////
 // Here we list all items of type `party`. /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/',         // TODO: change to suit your URI design. 
+app.get('/list-albums/',         // TODO: change to suit your URI design. 
   function(req, res) {
 
     var item_type = 'album'; // TODO: change to the type of item you want.
@@ -72,7 +72,7 @@ app.get('/albums/',         // TODO: change to suit your URI design.
       // Otherwise, use the returned data to render an HTML page.
       else {
         res.render(
-          'albums-by-titles',   // TODO: change to the name of your HTML template.
+          'list-albums',   // TODO: change to the name of your HTML template.
           { items: items }
         );
       }
@@ -84,7 +84,7 @@ app.get('/albums/',         // TODO: change to suit your URI design.
 // Example of handling POST to create a resource. //////////////////////////////
 // Here we create an item and allow the ID to be created automatically. ////////
 ////////////////////////////////////////////////////////////////////////////////
-app.post('/bands/', // TODO: change to suit your URI design.
+app.post('/list-bands/', // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item info that was POSTed from the input form.
@@ -109,7 +109,7 @@ app.post('/bands/', // TODO: change to suit your URI design.
 // Another example of handling PUT to update a resource. ///////////////////////
 // Here we update an item using the ID specified in the URI. ///////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.put('/bands/{band-id}', // TODO: change to suit your URI design.
+app.put('/list-bands/{band-id}', // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item ID from the URI.
@@ -164,7 +164,7 @@ app.get('/albums/?song-title={track-number}/',          // TODO: change to suit 
 // This handler is more complicated, because we want to show not only the //////
 // item requested, but also links to a set of related items. ///////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/bands/{band-id}',      // TODO: change to suit your URI design.
+app.get('/list-bands/{band-id}',      // TODO: change to suit your URI design.
   function(req, res) {
 
     var item_type = 'band'; // TODO: change to the type of item you want.
@@ -216,7 +216,7 @@ app.get('/bands/{band-id}',      // TODO: change to suit your URI design.
 // item requested, but also a list of potential related items, so that users ///
 // can select from a list when updating the item. //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/{ASIN}',       // TODO: change to suit your URI design.
+app.get('/list-albums/{ASIN}',       // TODO: change to suit your URI design.
   function(req, res) {
 
     var item_type = 'album'; // TODO: change to the type of item you want.
