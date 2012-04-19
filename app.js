@@ -58,7 +58,7 @@ app.put('/albums/{ASIN}/',      // TODO: change to suit your URI design.
 // Example of handling GET of a "collection" resource. /////////////////////////
 // Here we list all items of type `party`. /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/',         // TODO: change to suit your URI design. 
+app.get('/albums/?album-title={album-title}/',         // TODO: change to suit your URI design. 
   function(req, res) {
 
     var item_type = 'album'; // TODO: change to the type of item you want.
@@ -137,7 +137,7 @@ app.put('/bands/{band-id}', // TODO: change to suit your URI design.
 // Another example of handling GET of a "collection" resource. /////////////////
 // This time we support filtering the list by some criteria (i.e. searching). //
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/?song-title={track-number}/',          // TODO: change to suit your URI design. 
+app.get('/albums/?song-title={song-title}/',          // TODO: change to suit your URI design. 
   function(req, res) {
 
     var item_type = 'song'; // TODO: change to the type of item you want.
