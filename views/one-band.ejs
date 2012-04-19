@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Band Data: <%=item.name%></title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <a href="/"><h1>Band Data</h1></a>
+    <dl>
+      <dt>Band name</dt>
+      <dd><%=item.name%></dd>
+      <dt>Date formed</dt>
+<dd><%=item.dateformed%></dd>
+      <% if (item.dateformed) { %>
+      <dt>Description</dt>
+      <dd><%=item.description%></dd>
+<dt>Genre</dt>
+<dd><%=item.genre%></dd>
+<% if (item.genre) { %>
+      <% } %>
+      <dt>Bands</dt>
+      
+      <dd>
+        <% if (related_items.length > 0) { %>
+        <ul>
+          <% related_items.forEach(function(related_item) { %>
+          <li>
+            <a href="/list-bands/<%=related_item._id%>">
+              <%=related_item.name%>
+            </a>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        No bands have been added.
+        <% } %>
+      </dd>
+    </dl>
+    <div class="control">
+      <h2>Add a new album</h2>
+      <form id="create-album" method="post" action="/list-albums/">
+        <input type="hidden" name="item[album]" value="<%=item._id%>">
+        <!-- The line above links the album to be added to the list. -->
+        <label>Album Title: 
+          <input name="item[name]" type="text" required
+                   placeholder="Title">
+        </label>
+        <label>Album Artwork URL:
+          <input name="item[image]" type="url" size="80">
+        </label>
+    		<label>Album year:
+					<input name="item[year]" type="text" required 
+						placeholder="2012">
+				</label>
+        <button>Add</button>
+      </form>
+    </div>
+  </body>
+</html>

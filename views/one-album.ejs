@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Album Data: <%=item.name%></title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <a href="/"><h1>Album Data</h1></a>
+    <dl>
+      <dt>Title</dt>
+      <dd><%=item.name%></dd>
+      <dt>Album</dt>
+      <dd><a href="/albums/<%=item.image%>"><%=item.image%></a></dd>
+      <% if (item.image) { %>
+    <dt>Year Recorded</dt>
+<dd><%=item.year%></dd>
+<% if (item.year) { %>
+    <dt>Image URL</dt>
+      <dd><img src="<%=item.image%>" alt="<%=item.name%>"></dd>
+      <% } %>
+    </dl>
+    <div class="control">
+      <h2>Create new album</h2>
+      <form method="post" action="/list-albums/>">
+        <input type="hidden" name="_method" value="post">
+        <!-- The line above tells the server to treat this as a PUT request. -->
+        <label>Name: 
+          <input name="item[name]" value="<%=item.name%>" type="text" required>
+        </label>
+        <label>Album: 
+          <select name="item[name]" required>
+            <% related_items.forEach(function(related_item) { %>
+            <option value="<%=related_item._id%>"
+              <% if (related_item._id === item.album) { %>selected<% } %>>
+              <%=related_item.name%>
+            </option>
+            <% }); %>
+          </select>
+        </label>
+        <label>Image URL:
+          <input name="item[image]" value="<%=item.image%>" type="url" size="80"> 
+        </label>
+        <button>Create</button>
+      </form>
+    </div>
+  <div>
+      <h2>Update album</h2>
+      <form method="post" action="/list-albums/<%=item._id%>">
+        <input type="hidden" name="_method" value="put">
+        <!-- The line above tells the server to treat this as a PUT request. -->
+        <label>Name: 
+          <input name="item[name]" value="<%=item.name%>" type="text" required>
+        </label>
+        <label>Album: 
+          <select name="item[album]" required>
+            <% related_items.forEach(function(related_item) { %>
+            <option value="<%=related_item._id%>"
+              <% if (related_item._id === item.album) { %>selected<% } %>>
+              <%=related_item.name%>
+            </option>
+            <% }); %>
+          </select>
+        </label>
+        <label>Image URL:
+          <input name="item[image]" value="<%=item.image%>" type="url" size="80"> 
+        </label>
+        <button>Update</button>
+      </form>
+    </div>
+  </body>
+</html>

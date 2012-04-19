@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bands</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <a href="/"><h1>List of Bands</h1></a>
+    <% if (items.length > 0) { %>
+    <ul>
+      <% items.forEach(function(item) { %>
+      <li><a href="/list-bands/<%=item._id%>"><%=item.name%></a></li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <div>No bands have been added.</div>
+    <% } %>
+    <div class="control">
+      <h2>Add or update a new band</h2>
+      <script>
+      function onFormSubmit(form) {
+        form.action = form.action + form.elements['item[id]'].value;
+        console.log(form.action);
+        return true;
+      } 
+      </script>
+      <form method="post" action="/list-bands/"
+            onsubmit="return onFormSubmit(this);">
+        <!-- The line above dynamically sets the PUT destination when the -->
+        <!-- form is submitted. -------------------------------------------->
+        <input type="hidden" name="_method" value="put">
+        <!-- The line above tells the server to treat this as a PUT request. -->
+        <label>Band Name<br>
+          (Title case):
+          <input name="item[id]" type="text" pattern="[A-Z]+" required
+                 placeholder="Band Name">
+        </label>
+        <label>Date Formed: 
+          <input name="item[dateformed]" type="text" required
+                 placeholder="year">
+        </label>
+        <label>Band description:
+          <textarea name="item[description]" cols="80" rows="10" 
+                    placeholder="Please include where the band is based and what kind of music they play."
+          ></textarea>
+        </label>
+        <button>Add or update</button>
+      </form>
+    </div>
+<div>
+<h4>Album Title</h4>
+    <form method="get" action="/list-albums/">
+        <label>Band name: <input name="name"></label>
+        <button>Search</button>
+      </form>
+    </div>
+  </body>
+</html>
