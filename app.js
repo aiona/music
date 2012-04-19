@@ -67,7 +67,7 @@ app.get('/list-albums/',         // TODO: change to suit your URI design.
     db.getAll(item_type, function(err, items) {
 
       // If there was a database error, return an error status.
-      if (err) { res.send(err, 500); } 
+      if (err) { res.send(err, 500); }
 
       // Otherwise, use the returned data to render an HTML page.
       else {
@@ -137,7 +137,7 @@ app.put('/list-bands/{band-id}', // TODO: change to suit your URI design.
 // Another example of handling GET of a "collection" resource. /////////////////
 // This time we support filtering the list by some criteria (i.e. searching). //
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/?song-title={track-number}/',          // TODO: change to suit your URI design. 
+app.get('/albums/?song-title={song-title}/',          // TODO: change to suit your URI design. 
   function(req, res) {
 
     var item_type = 'song'; // TODO: change to the type of item you want.
