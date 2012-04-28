@@ -30,17 +30,17 @@ var db = utils.connectToDatabase(USER_OR_GROUP_NAME);
 // Example of handling PUT to create or update a resource. /////////////////////
 // Here we create or update an item using the ID specified in the URI. /////////
 ////////////////////////////////////////////////////////////////////////////////
-app.put('/albums/{ASIN}/',      // TODO: change to suit your URI design.
+app.put('/list-bands/:id',      // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item ID from the URI.
     var item_id = req.params.id;
 
     // Get the item info that was PUT from the input form.
-    // See the form in `views/list-parties.ejs`.
+    // See the form in `views/list-bands.ejs`.
     var item = req.body.item;
     
-    item.type = 'album'; // TODO: change to the type of item you want
+    item.type = 'band'; // TODO: change to the type of item you want
 
     // Save the new item to the database, specifying the ID.
     db.save(item_id, item, function(err) {
@@ -48,31 +48,31 @@ app.put('/albums/{ASIN}/',      // TODO: change to suit your URI design.
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the created/updated item.
+      else { res.send('', { Location: '/list-bands/' + item_id }, 204); }
     });
   }
 );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Example of handling GET of a "collection" resource. /////////////////////////
-// Here we list all items of type `party`. /////////////////////////////////////
+// Here we list all items of type `band`. /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/list-albums/',         // TODO: change to suit your URI design. 
+app.get('/list-bands/',         // TODO: change to suit your URI design. 
   function(req, res) {
 
-    var item_type = 'album'; // TODO: change to the type of item you want.
+    var item_type = 'band'; // TODO: change to the type of item you want.
 
     // Get all items of the specified type from the database.
     db.getAll(item_type, function(err, items) {
 
       // If there was a database error, return an error status.
-      if (err) { res.send(err, 500); }
+      if (err) { res.send(err, 500); } 
 
       // Otherwise, use the returned data to render an HTML page.
       else {
         res.render(
-          'list-albums',   // TODO: change to the name of your HTML template.
+          'list-bands',   // TODO: change to the name of your HTML template.
           { items: items }
         );
       }
@@ -88,19 +88,19 @@ app.post('/list-bands/', // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item info that was POSTed from the input form.
-    // See the form in `views/one-party.ejs`.
+    // See the form in `views/one-album.ejs`.
     var item = req.body.item;
 
     item.type = 'band'; // TODO: change to the type of item you want
 
     // Save the new item to the database. (No ID specified, it will be created.)
-    db.save(item, function(err) {
+    db.save(item, function(err, item) {
 
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the created item.
+      else { res.send('', { Location: '/list-bands/' + item.id }, 204); }
     });
   }
 );
@@ -109,17 +109,17 @@ app.post('/list-bands/', // TODO: change to suit your URI design.
 // Another example of handling PUT to update a resource. ///////////////////////
 // Here we update an item using the ID specified in the URI. ///////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.put('/list-bands/{band-id}', // TODO: change to suit your URI design.
+app.put('/list-albums/:id', // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item ID from the URI.
     var item_id = req.params.id;
 
     // Get the item info that was PUT from the input form.
-    // See the form in `views/one-candidate.ejs`.
+    // See the form in `views/one-album.ejs`.
     var item = req.body.item;
 
-    item.type = 'band'; // TODO: change to the type of item you want
+    item.type = 'album'; // TODO: change to the type of item you want
 
     // Save the new item to the database, specifying the ID.
     db.save(item_id, item, function(err) {
@@ -127,8 +127,8 @@ app.put('/list-bands/{band-id}', // TODO: change to suit your URI design.
       // If there was a database error, return an error status.
       if (err) { res.send(err, 500); } 
       
-      // Otherwise, redirect back to the URI from which the form was submitted.
-      else { res.redirect('back' ); }
+      // Otherwise, send back the location of the updated item.
+      else { res.send('', { Location: '/list-albums/' + item.id }, 204); }
     });
   }
 );
@@ -137,10 +137,10 @@ app.put('/list-bands/{band-id}', // TODO: change to suit your URI design.
 // Another example of handling GET of a "collection" resource. /////////////////
 // This time we support filtering the list by some criteria (i.e. searching). //
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/albums/?song-title={song-title}/',          // TODO: change to suit your URI design. 
+app.get('/list-albums/',          // TODO: change to suit your URI design. 
   function(req, res) {
 
-    var item_type = 'song'; // TODO: change to the type of item you want.
+    var item_type = 'album'; // TODO: change to the type of item you want.
 
     // Get items of the specified type that match the query.
     db.getSome(item_type, req.query, function(err, items) {
@@ -151,7 +151,7 @@ app.get('/albums/?song-title={song-title}/',          // TODO: change to suit yo
       // Otherwise, use the returned data to render an HTML page.
       else {
         res.render(
-          'songs-by-title', // TODO: change to the name of your HTML template.
+          'list-albums', // TODO: change to the name of your HTML template.
           { items: items }
         );
       }
@@ -164,10 +164,10 @@ app.get('/albums/?song-title={song-title}/',          // TODO: change to suit yo
 // This handler is more complicated, because we want to show not only the //////
 // item requested, but also links to a set of related items. ///////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/list-bands/{band-id}',      // TODO: change to suit your URI design.
+app.get('/one-album/:id',      // TODO: change to suit your URI design.
   function(req, res) {
 
-    var item_type = 'band'; // TODO: change to the type of item you want.
+    var item_type = 'album'; // TODO: change to the type of item you want.
 
     // Get the item ID from the URI.
     var item_id = req.params.id;
@@ -184,10 +184,10 @@ app.get('/list-bands/{band-id}',      // TODO: change to suit your URI design.
       // Otherwise, get the related items associated with this item.
       else {
         
-        var related_type = 'band'; // TODO: change to type of related item.
+        var related_type = 'album'; // TODO: change to type of related item.
 
         // Set our query to find the items related to the requested item.
-        req.query.song = item_id; // TODO: change `party` to reflect the
+        req.query.album = item_id; // TODO: change `req.query` to reflect the
                                    // relation between the item fetched above
                                    // and the related items to be fetched below.
 
@@ -200,7 +200,7 @@ app.get('/list-bands/{band-id}',      // TODO: change to suit your URI design.
           // Otherwise, use the returned data to render an HTML page.
           else {
             res.render(
-            'band', // TODO: change to the name of your HTML template.
+            'one-album', // TODO: change to the name of your HTML template.
               { item: item, related_items: items }
             );
           }
@@ -216,10 +216,10 @@ app.get('/list-bands/{band-id}',      // TODO: change to suit your URI design.
 // item requested, but also a list of potential related items, so that users ///
 // can select from a list when updating the item. //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-app.get('/list-albums/{ASIN}',       // TODO: change to suit your URI design.
+app.get('/one-band/:id',       // TODO: change to suit your URI design.
   function(req, res) {
 
-    var item_type = 'album'; // TODO: change to the type of item you want.
+    var item_type = 'band'; // TODO: change to the type of item you want.
 
     // Get the item ID from the URI.
     var item_id = req.params.id;
@@ -236,7 +236,7 @@ app.get('/list-albums/{ASIN}',       // TODO: change to suit your URI design.
       // Otherwise, get the items potentially related to this item.
       else {
         
-        var related_type = 'album'; // TODO: change to type of related item.
+        var related_type = 'band'; // TODO: change to type of related item.
 
         // Get all items of the specified related type.
         db.getAll(related_type, function(err, items) {
@@ -247,7 +247,7 @@ app.get('/list-albums/{ASIN}',       // TODO: change to suit your URI design.
           // Otherwise, use the returned data to render an HTML page.
           else {
             res.render(
-              'album', // TODO: change to name of your HTML template.
+              'one-band', // TODO: change to name of your HTML template.
               { item: item, related_items: items }
             );
           }
@@ -259,7 +259,11 @@ app.get('/list-albums/{ASIN}',       // TODO: change to suit your URI design.
 
 
 // Handle GET of the "index" resource.
-app.get('/', function(req, res) { res.render('index'); });
+app.get('/', 
+  function(req, res) {
+    res.render('index'); 
+  }
+);
 
 // Start listening for incoming HTTP connections.
 app.listen(process.env.PORT);

@@ -5,15 +5,15 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <a href="/"><h1>Album Data</h1></a>
+    <a href="/" itemscope itemtype="http://schema.org/MusicAlbum" class="album"><h1>Album Data</h1></a>
     <dl>
       <dt>Title</dt>
-      <dd><%=item.name%></dd>
+      <dd a href="" itemprop="title" class=album"><%=item.name%></dd>
       <dt>Album</dt>
-      <dd><a href="/albums/<%=item.image%>"><%=item.image%></a></dd>
+      <dd itemprop="thumbnailUrl" class="image"><a href="/list-albums/<%=item.image%>"><%=item.image%></a></dd>
       <% if (item.image) { %>
     <dt>Year Recorded</dt>
-<dd><%=item.year%></dd>
+<dd itemprop="dateCreated" class="date"><%=item.year%></dd>
 <% if (item.year) { %>
     <dt>Image URL</dt>
       <dd><img src="<%=item.image%>" alt="<%=item.name%>"></dd>

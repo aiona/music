@@ -5,19 +5,36 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <a href="/"><h1>Band Data</h1></a>
+    <a href="/" itemscope itemtype="http://schema.org/MusicGroup" class="band"><h1>Band Data</h1></a>
     <dl>
       <dt>Band name</dt>
-      <dd><%=item.name%></dd>
+      <dd itemprop="name" class= "artist"><%=item.name%></dd>
       <dt>Date formed</dt>
-<dd><%=item.dateformed%></dd>
-      <% if (item.dateformed) { %>
+<dd itemprop="foundingDate" class="date"><%=item.dateformed%></dd>
+      <% if (item.dateformed) 
+{ %>
       <dt>Description</dt>
       <dd><%=item.description%></dd>
 <dt>Genre</dt>
 <dd><%=item.genre%></dd>
 <% if (item.genre) { %>
+<dt>Releases</dt>
+<ol>
+<li><a href="" rel="album">
+<dd itemprop=title" itemscope itemtype="http://schema.org/MusicAlbum" class="album">
+<%=item.release1%></dd>
+<% if (item.release1) { %>
       <% } %>
+</li>
+
+<li><a href="" rel="album">
+<dd itemprop="title" itemscope itemtype="http://schema.org/MusicAlbum" class="album">
+<%=item.release2%></dd>
+<% if (item.release2) { %>
+<% } %>
+</li>
+</ol>
+
       <dt>Bands</dt>
       
       <dd>
@@ -48,7 +65,7 @@
         <label>Album Artwork URL:
           <input name="item[image]" type="url" size="80">
         </label>
-    		<label>Album year:
+        	<label>Album year:
 					<input name="item[year]" type="text" required 
 						placeholder="2012">
 				</label>
