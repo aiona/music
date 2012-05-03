@@ -9,7 +9,10 @@
     <% if (items.length > 0) { %>
     <ul>
       <% items.forEach(function(item) { %>
-      <li itemscope itemtype="http://www.schema.org/MusicAlbum" itemprop="<%=item.name%>"><a href="/list-albums/<%=item._id%>"><%=item.title%></a>
+      <li itemscope itemtype="http://www.schema.org/MusicAlbum" class="album> 
+<a itemprop="url" href="/one-album/<%=item._id%>"><%=item.band%>:</a>
+<a itemscope itemtype="http://schema.org/MusicGroup" itemprop="album" rel="band" href="/one-album/<%=item._id%>"> 
+<itemprop="title"><%=item.title%></a>
 </li>
       <% }); %>
     </ul>
@@ -20,19 +23,19 @@
       <h2>Search For Albums By Title, Genre and Year</h2>
      <script>
       function onFormSubmit(form) {
-        form.action = form.action + form.elements['item[id]'].value;
+        form.action = form.action + form.elements['_id]'].value;
         console.log(form.action);
         return true;
       } 
       </script>
-      <form method="post" action="/list-albums/"
+      <form method="get" action="/list-albums/"
             onsubmit="return onFormSubmit(this);">
         <!-- The line above dynamically sets the PUT destination when the -->
         <!-- form is submitted. -------------------------------------------->
         <input type="hidden" name="_method" value="put">
         <!-- The line above tells the server to treat this as a PUT request. -->
-        <label>Album Title:<br>
-          <input name="item[id]" type="text" pattern="[A-Z]+" required
+        <label>Album Title (use title case):<br>
+          <input name="item[_id]" type="text" required
                  placeholder="title">
 </label>
 <label>Genre:
@@ -42,6 +45,40 @@
 <input name="album[year]" type="text" required>
 </label>
         <button>Search</button>
+      </form>
+    </div>
+  <div class="control">
+      <h2>Create or Update Album</h2>
+      <script>
+      function onFormSubmit(form) {
+        form.action = form.action + form.elements['item[_id]'].value;
+        console.log(form.action);
+        return true;
+      } 
+      </script>
+      <form method="post" action="/list-albums/"
+            onsubmit="return onFormSubmit(this);">
+        <label>Band Name:<br>
+          <input name="item[band]" type="text" required
+                 placeholder="Band Name">
+        </label>
+ <label>Album Title:<br>
+          <input name="item[title]" type="text" required
+                 placeholder="Album Title">
+        </label>
+        <label>Year Released: 
+          <input name="item[year]" type="text" required
+                 placeholder="year">
+ </label>
+        <label>Band description:
+          <textarea name="item[description]" cols="80" rows="10" 
+                    placeholder="Please include any relevant album details."
+          ></textarea>
+        </label>
+<label>Image URL:
+          <input name="item[image]" value="" type="url" size="80"> 
+        </label>
+        <button>Update</button>
       </form>
     </div>
   </body>

@@ -5,12 +5,15 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <a href="/"><h1>Music</h1></a>
+<h1>Music</h1>
     <% if (items.length > 0) { %>
     <ul>
       <% items.forEach(function(item) { %>
-      <li><a href="/list-bands/<%=item._id%>"><%=item.name%></a>
-<itemscope itemtype="http://www.schema.org/MusicGroup" itemprop="genre"<%=item.genre%>></li>
+      <li itemscope itemtype="http://www.schema.org/MusicGroup">
+<a itemprop="url" href="/one-band/<%=item._id%>">
+<span itemprop="name"><%=item.name%></span>
+</a>
+<span itemprop="genre"><%=item.genre%></span></li>
       <% }); %>
     </ul>
     <% } else { %>
@@ -31,17 +34,21 @@
         <!-- form is submitted. -------------------------------------------->
         <input type="hidden" name="_method" value="put">
         <!-- The line above tells the server to treat this as a PUT request. -->
-        <label>Band Name<br>
-          <input name="item[id]" type="text" pattern="[A-Z]+" required
+        <label>Band Name:<br>
+          <input name="item[name]" type="text" pattern="[A-Z]+" required
                  placeholder="Band Name">
         </label>
         <label>Year Formed: 
           <input name="item[dateformed]" type="text" required
                  placeholder="year">
+ </label>
+        <label>Genre: 
+          <input name="item[genre]" type="text" required
+                 placeholder="genre">
         </label>
         <label>Band description:
           <textarea name="item[description]" cols="80" rows="10" 
-                    placeholder="Please include where the band is based and what kind of music they play."
+                    placeholder="Please include where the band is based and any other relevant details"
           ></textarea>
         </label>
         <button>Add or update</button>
@@ -49,4 +56,3 @@
     </div>
   </body>
 </html>
-

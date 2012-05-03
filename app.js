@@ -88,7 +88,7 @@ app.post('/list-bands/', // TODO: change to suit your URI design.
   function(req, res) {
   
     // Get the item info that was POSTed from the input form.
-    // See the form in `views/one-album.ejs`.
+    // See the form in `views/list-bands.ejs`.
     var item = req.body.item;
 
     item.type = 'band'; // TODO: change to the type of item you want
@@ -105,6 +105,34 @@ app.post('/list-bands/', // TODO: change to suit your URI design.
   }
 );
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Example of handling POST to create a resource. //////////////////////////////
+// Here we create an item and allow the ID to be created automatically. ////////
+////////////////////////////////////////////////////////////////////////////////
+app.post('/list-albums/', // TODO: change to suit your URI design.
+  function(req, res) {
+  
+    // Get the item info that was POSTed from the input form.
+    // See the form in `views/list-albums.ejs`.
+    var item = req.body.item;
+
+    item.type = 'album'; // TODO: change to the type of item you want
+
+    // Save the new item to the database. (No ID specified, it will be created.)
+    db.save(item, function(err, item) {
+
+      // If there was a database error, return an error status.
+      if (err) { res.send(err, 500); } 
+      
+      // Otherwise, send back the location of the created item.
+      else { res.send('', { Location: '/list-albums/' + item.id }, 204); }
+    });
+  }
+);
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Another example of handling PUT to update a resource. ///////////////////////
 // Here we update an item using the ID specified in the URI. ///////////////////
@@ -116,7 +144,7 @@ app.put('/list-albums/:id', // TODO: change to suit your URI design.
     var item_id = req.params.id;
 
     // Get the item info that was PUT from the input form.
-    // See the form in `views/one-album.ejs`.
+    // See the form in `views/list-albums.ejs`.
     var item = req.body.item;
 
     item.type = 'album'; // TODO: change to the type of item you want
@@ -236,10 +264,10 @@ app.get('/one-band/:id',       // TODO: change to suit your URI design.
       // Otherwise, get the items potentially related to this item.
       else {
         
-        var related_type = 'band'; // TODO: change to type of related item.
+        var related_type = 'album'; // TODO: change to type of related item.
 
         // Get all items of the specified related type.
-        db.getAll(related_type, function(err, items) {
+        db.getSome(related_type, {album:item_id},function(err, items) {
 
           // If there was a database error, return an error status.
           if (err) { res.send(err, 500); } 
